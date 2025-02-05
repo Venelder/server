@@ -11,10 +11,10 @@ xi.events.loginCampaign = xi.events.loginCampaign or {}
 
 -- Change vars below to modify settings for current login campaign
 -- NOTE: the year and month values are used in the Moogle's Event!
-local loginCampaignYear = 2021
-local loginCampaignMonth = 8
-local loginCampaignDay = 25
-local loginCampaignDuration = 23 -- Duration is set in Earth days (Average is 23 days)
+local loginCampaignYear = 2025
+local loginCampaignMonth = 2
+local loginCampaignDay = 1
+local loginCampaignDuration = 90 -- Duration is set in Earth days (Average is 23 days)
 
 -- Checks if a Login Campaign is active.
 xi.events.loginCampaign.isCampaignActive = function()
@@ -59,8 +59,8 @@ xi.events.loginCampaign.onGameIn = function(player)
     -- Carry last months points if there's any
     if playercMonth ~= loginCampaignMonth or playercYear ~= loginCampaignYear then
         if loginPoints > 1500 then
-            player:setCurrency('login_points', 1500)
-            player:messageSpecial(ID.text.CARRIED_OVER_POINTS, 0, 1500)
+            player:setCurrency('login_points', loginPoints)
+            player:messageSpecial(ID.text.CARRIED_OVER_POINTS, 0, loginPoints)
         elseif loginPoints ~= 0 then
             player:messageSpecial(ID.text.CARRIED_OVER_POINTS, 0, loginPoints)
         end
@@ -84,11 +84,11 @@ xi.events.loginCampaign.onGameIn = function(player)
 
         -- adds currency
         if loginCount == 1 then
+            player:addCurrency('login_points', 1000)
+            player:messageSpecial(ID.text.LOGIN_NUMBER, 0, loginCount, 1000, player:getCurrency('login_points'))
+        else
             player:addCurrency('login_points', 500)
             player:messageSpecial(ID.text.LOGIN_NUMBER, 0, loginCount, 500, player:getCurrency('login_points'))
-        else
-            player:addCurrency('login_points', 100)
-            player:messageSpecial(ID.text.LOGIN_NUMBER, 0, loginCount, 100, player:getCurrency('login_points'))
         end
 
         player:setCharVar('LoginCampaignLoginNumber', loginCount)
